@@ -249,7 +249,7 @@ def main():
 
         context = webrtc_streamer(
             key="exercise-analysis",
-            mode=WebRtcMode.SENDONLY,
+            mode=WebRtcMode.SENDRECV,
             video_processor_factory=VideoProcessorClass,
             rtc_configuration={
                 "iceServers": ice_servers,
