@@ -253,7 +253,7 @@ def main():
             video_processor_factory=VideoProcessorClass,
             rtc_configuration={
                 "iceServers": ice_servers,
-                # "iceTransportPolicy": "relay",
+                "iceTransportPolicy": "relay",
             },
             media_stream_constraints={
                 "video": True,
