@@ -262,8 +262,9 @@ def main():
             async_processing=True
         )
 
-        if context and context.video_processor:
-            sync_metrics_update(context)
+        if context.state.playing:
+            time.sleep(0.25)
+            st.rerun()
 
         inject_webrtc_styles()
 
