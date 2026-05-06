@@ -222,27 +222,30 @@ def main():
         
         ice_servers = [
             {
-                "urls": ["stun:stun.l.google.com:19302"]
+                "urls": ["stun:stun.relay.metered.ca:80"]
             },
             {
-                "urls": ["stun:stun.realtimegymcoach123.metered.live:80"]
-            },
-            {
-                "urls": ["turn:realtimegymcoach123.metered.live:80"],
+                "urls": ["turn:standard.relay.metered.ca:80"],
                 "username": st.secrets["TURN_USERNAME"],
                 "credential": st.secrets["TURN_PASSWORD"],
             },
             {
-                "urls": ["turn:realtimegymcoach123.metered.live:443"],
+                "urls": ["turn:standard.relay.metered.ca:80?transport=tcp"],
                 "username": st.secrets["TURN_USERNAME"],
                 "credential": st.secrets["TURN_PASSWORD"],
             },
             {
-                "urls": ["turns:realtimegymcoach123.metered.live:443"],
+                "urls": ["turn:standard.relay.metered.ca:443"],
+                "username": st.secrets["TURN_USERNAME"],
+                "credential": st.secrets["TURN_PASSWORD"],
+            },
+            {
+                "urls": ["turns:standard.relay.metered.ca:443?transport=tcp"],
                 "username": st.secrets["TURN_USERNAME"],
                 "credential": st.secrets["TURN_PASSWORD"],
             },
         ]
+    
 
         context = webrtc_streamer(
             key="exercise-analysis",
