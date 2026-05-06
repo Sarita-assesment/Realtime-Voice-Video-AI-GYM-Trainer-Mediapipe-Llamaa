@@ -204,26 +204,47 @@ def main():
             unsafe_allow_html=True,
         )
     else:
-        context = webrtc_streamer(
-            key="exercise-analysis",
-            # mode=WebRtcMode.SENDRECV,
-            mode=WebRtcMode.SENDONLY,
-            video_processor_factory=VideoProcessorClass,
-            rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
-            media_stream_constraints={
-                "video": True,
-                "audio": False
-            },
-            async_processing=True
-        )
+        # context = webrtc_streamer(
+        #     key="exercise-analysis",
+        #     # mode=WebRtcMode.SENDRECV,
+        #     mode=WebRtcMode.SENDONLY,
+        #     video_processor_factory=VideoProcessorClass,
+        #     rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
+        #     media_stream_constraints={
+        #         "video": True,
+        #         "audio": False
+        #     },
+        #     async_processing=True
+        # )
 
+        # sync_metrics_update(context)
+
+        # # if context.state.playing:
+        # #     time.sleep(0.25)
+        # #     st.rerun()
+
+        # inject_webrtc_styles()
+
+        context = webrtc_streamer(
+        key="exercise-analysis",
+        mode=WebRtcMode.SENDONLY,
+        video_processor_factory=VideoProcessorClass,
+        rtc_configuration={
+            "iceServers": [
+                {"urls": ["stun:stun.l.google.com:19302"]}
+            ]
+        },
+        media_stream_constraints={
+            "video": True,
+            "audio": False
+        },
+        async_processing=True
+    )
+
+    if context and context.video_processor:
         sync_metrics_update(context)
 
-        # if context.state.playing:
-        #     time.sleep(0.25)
-        #     st.rerun()
-
-        inject_webrtc_styles()
+    inject_webrtc_styles()
 
     st.divider()
 
