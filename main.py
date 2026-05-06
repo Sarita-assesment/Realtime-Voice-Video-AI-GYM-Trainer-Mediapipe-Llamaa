@@ -197,11 +197,59 @@ def main():
             unsafe_allow_html=True,
         )
     else:
+        # context = webrtc_streamer(
+        #     key="exercise-analysis",
+        #     mode=WebRtcMode.SENDRECV,
+        #     video_processor_factory=VideoProcessorClass,
+        #     rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
+        #     media_stream_constraints={
+        #         "video": True,
+        #         "audio": False
+        #     },
+        #     async_processing=True
+        # )
+
+        # sync_metrics_update(context)
+
+        # if context.state.playing:
+        #     time.sleep(0.25)
+        #     st.rerun()
+
+        # inject_webrtc_styles()
+
+        
+        ice_servers = [
+            {
+                "urls": ["stun:stun.l.google.com:19302"]
+            },
+            {
+                "urls": ["stun:stun.realtimegymcoach123.metered.live:80"]
+            },
+            {
+                "urls": ["turn:realtimegymcoach123.metered.live:80"],
+                "username": st.secrets["TURN_USERNAME"],
+                "credential": st.secrets["TURN_PASSWORD"],
+            },
+            {
+                "urls": ["turn:realtimegymcoach123.metered.live:443"],
+                "username": st.secrets["TURN_USERNAME"],
+                "credential": st.secrets["TURN_PASSWORD"],
+            },
+            {
+                "urls": ["turns:realtimegymcoach123.metered.live:443"],
+                "username": st.secrets["TURN_USERNAME"],
+                "credential": st.secrets["TURN_PASSWORD"],
+            },
+        ]
+
         context = webrtc_streamer(
             key="exercise-analysis",
-            mode=WebRtcMode.SENDRECV,
+            mode=WebRtcMode.SENDONLY,
             video_processor_factory=VideoProcessorClass,
-            rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
+            rtc_configuration={
+                "iceServers": ice_servers,
+                "iceTransportPolicy": "relay",
+            },
             media_stream_constraints={
                 "video": True,
                 "audio": False
@@ -209,11 +257,8 @@ def main():
             async_processing=True
         )
 
-        sync_metrics_update(context)
-
-        if context.state.playing:
-            time.sleep(0.25)
-            st.rerun()
+        if context and context.video_processor:
+            sync_metrics_update(context)
 
         inject_webrtc_styles()
 
